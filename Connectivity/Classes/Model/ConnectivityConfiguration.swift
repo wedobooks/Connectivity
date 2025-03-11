@@ -34,16 +34,16 @@ typealias Configuration = ConnectivityConfiguration // For internal use.
         sessionConfiguration.timeoutIntervalForResource = 5.0
         return sessionConfiguration
     }()
-    private(set) var framework: Connectivity.Framework = .network
+    private(set) var framework: ConnectivityManager.Framework = .network
     private(set) var pollingInterval: Double
     private(set) var pollingIsEnabled: Bool
     private(set) var pollWhileOfflineOnly: Bool
     private(set) var responseValidator: ResponseValidator
     
     /// % successful connections required to be deemed to have connectivity
-    let successThreshold: Connectivity.Percentage
+    let successThreshold: ConnectivityManager.Percentage
     private(set) var urlSessionConfiguration: URLSessionConfiguration
-    private(set) var validationMode: Connectivity.ValidationMode?
+    private(set) var validationMode: ConnectivityManager.ValidationMode?
     
     public init(
         callbackQueue: DispatchQueue = DispatchQueue.main,
@@ -57,9 +57,9 @@ typealias Configuration = ConnectivityConfiguration // For internal use.
             validationMode: .containsExpectedResponseString,
             expectedResponse: "Success"
         ),
-        successThreshold: Connectivity.Percentage = Connectivity.Percentage(50.0),
+        successThreshold: ConnectivityManager.Percentage = ConnectivityManager.Percentage(50.0),
         urlSessionConfiguration: URLSessionConfiguration = defaultURLSessionConfiguration,
-        validationMode: Connectivity.ValidationMode? = nil
+        validationMode: ConnectivityManager.ValidationMode? = nil
     ) {
         self.callbackQueue = callbackQueue
         self.checkWhenApplicationDidBecomeActive = checkWhenApplicationDidBecomeActive
@@ -98,7 +98,7 @@ typealias Configuration = ConnectivityConfiguration // For internal use.
         return self
     }
     
-    public func configureFramework(_ framework: Connectivity.Framework) -> Self {
+    public func configureFramework(_ framework: ConnectivityManager.Framework) -> Self {
         self.framework = framework
         return self
     }
@@ -132,7 +132,7 @@ typealias Configuration = ConnectivityConfiguration // For internal use.
         return self
     }
     
-    public func configureValidationMode(with validationMode: Connectivity.ValidationMode) -> Self {
+    public func configureValidationMode(with validationMode: ConnectivityManager.ValidationMode) -> Self {
         self.validationMode = validationMode
         return self
     }

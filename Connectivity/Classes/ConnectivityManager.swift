@@ -16,11 +16,11 @@ import UIKit
 #endif
 
 @objcMembers
-public class Connectivity: NSObject {
+public class ConnectivityManager: NSObject {
     public typealias Framework = ConnectivityFramework
     public typealias Interface = ConnectivityInterface
-    public typealias NetworkConnected = (Connectivity) -> Void
-    public typealias NetworkDisconnected = (Connectivity) -> Void
+    public typealias NetworkConnected = (ConnectivityManager) -> Void
+    public typealias NetworkDisconnected = (ConnectivityManager) -> Void
     public typealias Percentage = ConnectivityPercentage
     public typealias Status = ConnectivityStatus
     public typealias ValidationMode = ConnectivityResponseValidationMode
@@ -65,10 +65,10 @@ public class Connectivity: NSObject {
     }
 
     /// URLs to contact in order to check connectivity
-    public var connectivityURLRequests: [URLRequest] = Connectivity
-        .defaultConnectivityURLRequests(shouldUseHTTPS: Connectivity.isHTTPSOnly) {
+    public var connectivityURLRequests: [URLRequest] = ConnectivityManager
+        .defaultConnectivityURLRequests(shouldUseHTTPS: ConnectivityManager.isHTTPSOnly) {
             didSet {
-                if Connectivity.isHTTPSOnly { // if HTTPS only set only allow HTTPS URLs
+                if ConnectivityManager.isHTTPSOnly { // if HTTPS only set only allow HTTPS URLs
                     connectivityURLRequests = connectivityURLRequests.filter { request in
                         return request.url?.absoluteString.lowercased().starts(with: "https") ?? false
                     }
@@ -97,7 +97,7 @@ public class Connectivity: NSObject {
     private(set) var externalQueue = DispatchQueue.main
     
     /// Whether or not to use System Configuration or Network (on iOS 12+) framework.
-    public var framework: Connectivity.Framework = .network
+    public var framework: ConnectivityManager.Framework = .network
     
     /// Used to for checks using NWPathMonitor
     private(set) var internalQueue = DispatchQueue.global(qos: .default)
@@ -165,7 +165,7 @@ public class Connectivity: NSObject {
     public var status: ConnectivityStatus = .determining
     
     /// % successful connections required to be deemed to have connectivity
-    public var successThreshold = Connectivity.Percentage(50.0)
+    public var successThreshold = ConnectivityManager.Percentage(50.0)
     
     /// Timer for polling connectivity endpoints when not awaiting changes in reachability
     private var timer: Timer?
@@ -208,7 +208,7 @@ public class Connectivity: NSObject {
 }
 
 // Public API
-public extension Connectivity {
+public extension ConnectivityManager {
     /// Textual representation of connectivity state
     override var description: String {
         return "\(status)"
@@ -238,7 +238,7 @@ public extension Connectivity {
         return isDisconnected(with: ReachableViaWiFi)
     }
     
-    func checkConnectivity(completion: ((Connectivity) -> Void)? = nil) {
+    func checkConnectivity(completion: ((ConnectivityManager) -> Void)? = nil) {
         let deadline: DispatchTime = (previousStatus == .notConnected)
         ? DispatchTime.now() + connectivityCheckLatency
         : DispatchTime.now()
@@ -315,7 +315,7 @@ public extension Connectivity {
 }
 
 // Private API
-private extension Connectivity {
+private extension ConnectivityManager {
 #if canImport(UIKit)
     /// Checks connectivity when the application becomes active.
     @objc func applicationDidBecomeActive(_: NSNotification) {
@@ -362,7 +362,7 @@ private extension Connectivity {
     /// Checks specified URLs for the expected response to determine whether Internet connectivity exists. It is
     /// intended that this function should be called only from `checkConnectivity` to ensure that it is executed
     /// on  `internalQueue`.
-    private func checkConnectivityOnInternalQueue(completion: ((Connectivity) -> Void)? = nil) {
+    private func checkConnectivityOnInternalQueue(completion: ((ConnectivityManager) -> Void)? = nil) {
         let dispatchGroup = DispatchGroup()
         var tasks: [URLSessionDataTask] = []
         var successfulChecks: UInt = 0, failedChecks: UInt = 0

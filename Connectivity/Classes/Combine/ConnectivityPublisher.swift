@@ -12,7 +12,7 @@ import Foundation
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, *)
 public struct ConnectivityPublisher: Publisher {
-    public typealias Output = Connectivity
+    public typealias Output = ConnectivityManager
     public typealias Failure = Never
     private let configuration: ConnectivityConfiguration
     

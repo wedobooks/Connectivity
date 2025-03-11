@@ -11,12 +11,12 @@ import Combine
 import Foundation
 
 @available(OSX 10.15, iOS 13.0, tvOS 13.0, *)
-class ConnectivitySubscription<S: Subscriber>: Subscription where S.Input == Connectivity, S.Failure == Never {
-    private let connectivity: Connectivity
+class ConnectivitySubscription<S: Subscriber>: Subscription where S.Input == ConnectivityManager, S.Failure == Never {
+    private let connectivity: ConnectivityManager
     private var subscriber: S?
 
     init(configuration: ConnectivityConfiguration, subscriber: S) {
-        connectivity = Connectivity(configuration: configuration)
+        connectivity = ConnectivityManager(configuration: configuration)
         self.subscriber = subscriber
         startNotifier(with: subscriber)
     }
@@ -28,7 +28,7 @@ class ConnectivitySubscription<S: Subscriber>: Subscription where S.Input == Con
     func request(_: Subscribers.Demand) {}
 
     private func startNotifier(with subscriber: S) {
-        let connectivityChanged: (Connectivity) -> Void = { connectivity in
+        let connectivityChanged: (ConnectivityManager) -> Void = { connectivity in
             _ = subscriber.receive(connectivity)
         }
         connectivity.whenConnected = connectivityChanged
