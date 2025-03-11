@@ -16,7 +16,7 @@ class BackgroundingTests: XCTestCase {
 
     func testConnectivityCheckOnApplicationDidBecomeActive() {
         stubHost("www.apple.com", withHTMLFrom: "success-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = true
         connectivity.framework = .systemConfiguration
         connectivity.startNotifier()
@@ -46,7 +46,7 @@ class BackgroundingTests: XCTestCase {
 
     func testConnectivityDoesNotCheckOnApplicationDidBecomeActive() {
         stubHost("www.apple.com", withHTMLFrom: "success-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.framework = .systemConfiguration
         connectivity.startNotifier()

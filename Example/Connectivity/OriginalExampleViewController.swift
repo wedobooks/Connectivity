@@ -12,7 +12,7 @@ import UIKit
 class OriginalExampleViewController: UIViewController {
     // MARK: Dependencies
 
-    fileprivate let connectivity = Connectivity()
+    fileprivate let connectivity = ConnectivityManager()
 
     // MARK: Outlets
 
@@ -67,7 +67,7 @@ extension OriginalExampleViewController {
 // Private API
 private extension OriginalExampleViewController {
     func configureConnectivityNotifier() {
-        let connectivityChanged: (Connectivity) -> Void = { [weak self] connectivity in
+        let connectivityChanged: (ConnectivityManager) -> Void = { [weak self] connectivity in
             self?.updateConnectionStatus(connectivity.status)
         }
         connectivity.whenConnected = connectivityChanged
@@ -96,7 +96,7 @@ private extension OriginalExampleViewController {
         updateNotifierButton(isCheckingConnectivity: isCheckingConnectivity)
     }
 
-    func updateConnectionStatus(_ status: Connectivity.Status) {
+    func updateConnectionStatus(_ status: ConnectivityManager.Status) {
         switch status {
         case .connectedViaWiFi, .connectedViaCellular, .connectedViaEthernet, .connected:
             statusLabel.textColor = UIColor.darkGreen

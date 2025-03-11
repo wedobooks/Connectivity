@@ -39,7 +39,7 @@ extension CombineViewController {
 private extension CombineViewController {
     func startConnectivityChecks() {
         activityIndicator.startAnimating()
-        let publisher = Connectivity.Publisher(
+        let publisher = ConnectivityManager.Publisher(
             configuration:
             .init()
                 .configureURLSession(.default)
@@ -66,7 +66,7 @@ private extension CombineViewController {
         updateNotifierButton(isCheckingConnectivity: isCheckingConnectivity)
     }
 
-    func updateConnectionStatus(_ status: Connectivity.Status) {
+    func updateConnectionStatus(_ status: ConnectivityManager.Status) {
         switch status {
         case .connectedViaWiFi, .connectedViaCellular, .connected, .connectedViaEthernet:
             statusLabel.textColor = UIColor.darkGreen

@@ -17,7 +17,7 @@ class PollingTests: XCTestCase {
     func testConnectivityDetectedWhenPolling() {
         stubHost("captive.apple.com", withHTMLFrom: "failure-response.html")
         stubHost("www.apple.com", withHTMLFrom: "failure-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.isPollingEnabled = true
         connectivity.pollingInterval = 0.1
@@ -49,7 +49,7 @@ class PollingTests: XCTestCase {
     func testConnectivityNotDetectedWhenNotPolling() {
         stubHost("captive.apple.com", withHTMLFrom: "failure-response.html")
         stubHost("www.apple.com", withHTMLFrom: "failure-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.isPollingEnabled = false
         connectivity.pollingInterval = 0.1
@@ -82,7 +82,7 @@ class PollingTests: XCTestCase {
     func testConnectivityDetectedWhenPollingOfflineOnlyAndConnectionOffline() {
         stubHost("captive.apple.com", withHTMLFrom: "failure-response.html")
         stubHost("www.apple.com", withHTMLFrom: "failure-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.isPollingEnabled = true
         connectivity.pollWhileOfflineOnly = true
@@ -114,7 +114,7 @@ class PollingTests: XCTestCase {
 
     func testConnectivityNotDetectedWhenPollingOfflineOnlyAndConnectionOnline() {
         stubHost("www.apple.com", withHTMLFrom: "success-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.isPollingEnabled = true
         connectivity.pollWhileOfflineOnly = true
@@ -149,7 +149,7 @@ class PollingTests: XCTestCase {
     func testConnectivityDetectedWhenPollingUsingNetwork() {
         stubHost("captive.apple.com", withHTMLFrom: "failure-response.html")
         stubHost("www.apple.com", withHTMLFrom: "failure-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.isPollingEnabled = true
         connectivity.pollingInterval = 0.1
@@ -181,7 +181,7 @@ class PollingTests: XCTestCase {
     func testConnectivityNotDetectedWhenNotPollingUsingNetwork() {
         stubHost("captive.apple.com", withHTMLFrom: "failure-response.html")
         stubHost("www.apple.com", withHTMLFrom: "failure-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.isPollingEnabled = false
         connectivity.pollingInterval = 0.1
@@ -214,7 +214,7 @@ class PollingTests: XCTestCase {
     func testConnectivityDetectedWhenPollingOfflineOnlyAndConnectionOfflineUsingNetwork() {
         stubHost("captive.apple.com", withHTMLFrom: "failure-response.html")
         stubHost("www.apple.com", withHTMLFrom: "failure-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.isPollingEnabled = true
         connectivity.pollWhileOfflineOnly = true
@@ -246,7 +246,7 @@ class PollingTests: XCTestCase {
 
     func testConnectivityNotDetectedWhenPollingOfflineOnlyAndConnectionOnlineUsingNetwork() {
         stubHost("www.apple.com", withHTMLFrom: "success-response.html")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.checkWhenApplicationDidBecomeActive = false
         connectivity.isPollingEnabled = true
         connectivity.pollWhileOfflineOnly = true

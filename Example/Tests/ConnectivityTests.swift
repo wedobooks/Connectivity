@@ -18,9 +18,9 @@ class ConnectivityTests: XCTestCase {
     func testSuccessfulConnectivityCheckUsingSysConfig() {
         stubHost("www.apple.com", withHTMLFrom: "success-response.html")
         let expectation = XCTestExpectation(description: "Connectivity check succeeds")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.framework = .systemConfiguration
-        let connectivityChanged: (Connectivity) -> Void = { connectivity in
+        let connectivityChanged: (ConnectivityManager) -> Void = { connectivity in
             XCTAssertEqual(connectivity.status, .connectedViaWiFi)
             expectation.fulfill()
         }
@@ -34,9 +34,9 @@ class ConnectivityTests: XCTestCase {
     func testSuccessfulConnectivityCheckUsingNetwork() {
         stubHost("www.apple.com", withHTMLFrom: "success-response.html")
         let expectation = XCTestExpectation(description: "Connectivity check succeeds")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.framework = .network
-        let connectivityChanged: (Connectivity) -> Void = { connectivity in
+        let connectivityChanged: (ConnectivityManager) -> Void = { connectivity in
             XCTAssertTrue(connectivity.isConnected)
             expectation.fulfill()
         }
@@ -51,9 +51,9 @@ class ConnectivityTests: XCTestCase {
         stubHost("captive.apple.com", withHTMLFrom: "failure-response.html")
         stubHost("www.apple.com", withHTMLFrom: "failure-response.html")
         let expectation = XCTestExpectation(description: "Connectivity checks fails")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.framework = .systemConfiguration
-        let connectivityChanged: (Connectivity) -> Void = { connectivity in
+        let connectivityChanged: (ConnectivityManager) -> Void = { connectivity in
             XCTAssertEqual(connectivity.status, .connectedViaWiFiWithoutInternet)
             expectation.fulfill()
         }
@@ -68,9 +68,9 @@ class ConnectivityTests: XCTestCase {
         stubHost("captive.apple.com", withHTMLFrom: "failure-response.html")
         stubHost("www.apple.com", withHTMLFrom: "failure-response.html")
         let expectation = XCTestExpectation(description: "Connectivity checks fails")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.framework = .network
-        let connectivityChanged: (Connectivity) -> Void = { connectivity in
+        let connectivityChanged: (ConnectivityManager) -> Void = { connectivity in
             XCTAssertFalse(connectivity.isConnected)
             expectation.fulfill()
         }
@@ -161,13 +161,13 @@ class ConnectivityTests: XCTestCase {
     
     func testWhenConfigurationCheckWhenApplicationDidBecomeActiveIsTrueThenConnectivityIsTrue() {
         let configuration = Configuration(checkWhenApplicationDidBecomeActive: true)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertTrue(sut.checkWhenApplicationDidBecomeActive)
     }
     
     func testWhenConfigurationCheckWhenApplicationDidBecomeActiveIsFalseThenConnectivityIsFalse() {
         let configuration = Configuration(checkWhenApplicationDidBecomeActive: false)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertFalse(sut.checkWhenApplicationDidBecomeActive)
     }
     
@@ -177,7 +177,7 @@ class ConnectivityTests: XCTestCase {
             URLRequest(url: $0)
         }
         let configuration = Configuration(connectivityURLRequests: connectivityURLRequests)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertEqual(sut.connectivityURLRequests.count, 1)
         guard let firstConnectivityURLRequest = sut.connectivityURLRequests.first else {
             return
@@ -191,72 +191,72 @@ class ConnectivityTests: XCTestCase {
             URLRequest(url: $0)
         }
         let configuration = Configuration(connectivityURLRequests: connectivityURLRequests)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertTrue(sut.connectivityURLRequests.isEmpty)
     }
     
     func testWhenConfigurationCallbackQueueIsSetThenConnectivityExternalQueueIsSetCorrectly() {
         let callbackQueue = DispatchQueue(label: "test-queue")
         let configuration = Configuration(callbackQueue: callbackQueue)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertTrue(sut.externalQueue === callbackQueue)
     }
     
     func testWhenConfigurationConnectivityQueueIsSetThenConnectivityInternalQueueIsSetCorrectly() {
         let connectivityQueue = DispatchQueue(label: "test-queue")
         let configuration = Configuration(connectivityQueue: connectivityQueue)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertTrue(sut.internalQueue === connectivityQueue)
     }
     
     func testWhenConfigurationPollingIsEnabledIsTrueThenConnectivityIsPollingEnabledIsTrue() {
         let configuration = Configuration(pollingIsEnabled: true)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertTrue(sut.isPollingEnabled)
     }
     
     func testWhenConfigurationPollingIntervalIsSetThenConnectivityPollingIntervalIsSetCorrectly() {
         let configuration = Configuration(pollingInterval: 21)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertEqual(sut.pollingInterval, 21)
     }
     
     func testWhenConfigurationPollingIsEnabledIsFalseThenConnectivityIsPollingEnabledIsFalse() {
         let configuration = Configuration(pollingIsEnabled: false)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertFalse(sut.isPollingEnabled)
     }
     
     func testWhenConfigurationPollWhileOfflineOnlyIsTrueThenConnectivityPollWhileOfflineOnlyIsTrue() {
         let configuration = Configuration(pollWhileOfflineOnly: true)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertTrue(sut.pollWhileOfflineOnly)
     }
     
     func testWhenConfigurationPollWhileOfflineOnlyIsFalseThenConnectivityPollWhileOfflineOnlyIsFalse() {
         let configuration = Configuration(pollWhileOfflineOnly: true)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertTrue(sut.pollWhileOfflineOnly)
     }
     
     func testWhenConfigurationResponseValidatorIsSetThenConnectivityResponseValidatorIsSetCorrectly() {
         let responseValidator = MockResponseValidator()
         let configuration = Configuration(responseValidator: responseValidator)
-        let sut = Connectivity(configuration: configuration)
+        let sut = ConnectivityManager(configuration: configuration)
         XCTAssertTrue(sut.responseValidator === sut.responseValidator)
     }
     
     func testWhenConfigurationSuccessThresholdIs50PCThenConnectivityIs50PC() {
-        let configuration = Configuration(successThreshold: Connectivity.Percentage(50))
-        let sut = Connectivity(configuration: configuration)
-        XCTAssertEqual(sut.successThreshold, Connectivity.Percentage(50))
+        let configuration = Configuration(successThreshold: ConnectivityManager.Percentage(50))
+        let sut = ConnectivityManager(configuration: configuration)
+        XCTAssertEqual(sut.successThreshold, ConnectivityManager.Percentage(50))
     }
     
     func testWhenConfigurationURLSessionConfigIsSetThenConnectivityURLSessionConfigIsSetCorrectly() {
         let urlSessionConfiguration = URLSessionConfiguration.default
         let configuration = Configuration(urlSessionConfiguration: urlSessionConfiguration)
-        let _ = Connectivity(configuration: configuration)
-        XCTAssertTrue(Connectivity.urlSessionConfiguration === urlSessionConfiguration)
+        let _ = ConnectivityManager(configuration: configuration)
+        XCTAssertTrue(ConnectivityManager.urlSessionConfiguration === urlSessionConfiguration)
     }
 }
 

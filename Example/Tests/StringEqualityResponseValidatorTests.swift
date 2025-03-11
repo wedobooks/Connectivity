@@ -23,10 +23,10 @@ class StringEqualityResponseValidatorTests: XCTestCase {
     func testEqualsExpectedResponseString() {
         stubHost("www.apple.com", withHTMLFrom: "string-equality-response.html")
         let expectation = XCTestExpectation(description: "Connectivity check succeeds")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.responseValidator = ConnectivityResponseStringEqualityValidator(expectedResponse: "Success")
         connectivity.validationMode = .custom
-        let connectivityChanged: (Connectivity) -> Void = { connectivity in
+        let connectivityChanged: (ConnectivityManager) -> Void = { connectivity in
             XCTAssert(connectivity.status == .connectedViaWiFi)
             expectation.fulfill()
         }
@@ -41,10 +41,10 @@ class StringEqualityResponseValidatorTests: XCTestCase {
     func testNotEqualsExpectedResponseString() {
         stubHost("www.apple.com", withHTMLFrom: "string-contains-response.html")
         let expectation = XCTestExpectation(description: "Connectivity check fails")
-        let connectivity = Connectivity()
+        let connectivity = ConnectivityManager()
         connectivity.responseValidator = ConnectivityResponseStringEqualityValidator(expectedResponse: "Success")
         connectivity.validationMode = .custom
-        let connectivityChanged: (Connectivity) -> Void = { connectivity in
+        let connectivityChanged: (ConnectivityManager) -> Void = { connectivity in
             XCTAssert(connectivity.status == .connectedViaWiFiWithoutInternet)
             expectation.fulfill()
         }
