@@ -17,19 +17,8 @@ let package = Package(
     targets: [
         .target(
             name: "Connectivity",
-            dependencies: ["Reachability"],
-            path: "Connectivity/Classes",
-            exclude: ["Reachability"],
-            swiftSettings: [.define("IMPORT_REACHABILITY")]
-        ),
-        .target(
-            name: "Reachability",
             dependencies: [],
-            path: "Connectivity/Classes/Reachability",
-            publicHeadersPath: "",
-            cSettings: [
-                .headerSearchPath("Connectivity/Classes/Reachability")
-            ]
+            path: "Connectivity/Classes"
         )
     ]
 )
