@@ -12,7 +12,7 @@ import UIKit
 class OriginalExampleViewController: UIViewController {
     // MARK: Dependencies
 
-    fileprivate let connectivity: Connectivity = Connectivity()
+    fileprivate let connectivity = Connectivity()
 
     // MARK: Outlets
 
@@ -98,9 +98,9 @@ private extension OriginalExampleViewController {
 
     func updateConnectionStatus(_ status: Connectivity.Status) {
         switch status {
-        case .connectedViaWiFi, .connectedViaCellular, .connected:
+        case .connectedViaWiFi, .connectedViaCellular, .connectedViaEthernet, .connected:
             statusLabel.textColor = UIColor.darkGreen
-        case .connectedViaWiFiWithoutInternet, .connectedViaCellularWithoutInternet, .notConnected:
+        case .connectedViaWiFiWithoutInternet, .connectedViaCellularWithoutInternet, .connectedViaEthernetWithoutInternet, .notConnected:
             statusLabel.textColor = UIColor.red
         case .determining:
             statusLabel.textColor = UIColor.black

@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "Connectivity_Example.app"
-               BlueprintName = "Connectivity_Example"
-               ReferencedContainer = "container:Connectivity.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "Connectivity_Tests.xctest"
-               BlueprintName = "Connectivity_Tests"
+               BlueprintIdentifier = "D5F1BD1A24AA051100D10B24"
+               BuildableName = "Connectivity_Example_macOS.app"
+               BlueprintName = "Connectivity_Example_macOS"
                ReferencedContainer = "container:Connectivity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,29 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES">
-      <CodeCoverageTargets>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "66F676614A06CBB16C631D16A98E46CC"
-            BuildableName = "Connectivity.framework"
-            BlueprintName = "Connectivity"
-            ReferencedContainer = "container:Pods/Pods.xcodeproj">
-         </BuildableReference>
-      </CodeCoverageTargets>
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "Connectivity_Tests.xctest"
-               BlueprintName = "Connectivity_Tests"
-               ReferencedContainer = "container:Connectivity.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -79,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "Connectivity_Example.app"
-            BlueprintName = "Connectivity_Example"
+            BlueprintIdentifier = "D5F1BD1A24AA051100D10B24"
+            BuildableName = "Connectivity_Example_macOS.app"
+            BlueprintName = "Connectivity_Example_macOS"
             ReferencedContainer = "container:Connectivity.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -96,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "Connectivity_Example.app"
-            BlueprintName = "Connectivity_Example"
+            BlueprintIdentifier = "D5F1BD1A24AA051100D10B24"
+            BuildableName = "Connectivity_Example_macOS.app"
+            BlueprintName = "Connectivity_Example_macOS"
             ReferencedContainer = "container:Connectivity.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

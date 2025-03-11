@@ -39,9 +39,12 @@ extension CombineViewController {
 private extension CombineViewController {
     func startConnectivityChecks() {
         activityIndicator.startAnimating()
-        let publisher = Connectivity.Publisher()
+        let publisher = Connectivity.Publisher(
+            configuration:
+            .init()
+                .configureURLSession(.default)
+        ).eraseToAnyPublisher()
         cancellable = publisher.receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
             .sink(receiveCompletion: { [weak self] _ in
                 guard let strongSelf = self else {
                     return
@@ -51,7 +54,7 @@ private extension CombineViewController {
                 strongSelf.updateNotifierButton(isCheckingConnectivity: strongSelf.isCheckingConnectivity)
             }, receiveValue: { [weak self] connectivity in
                 self?.updateConnectionStatus(connectivity.status)
-        })
+            })
         isCheckingConnectivity = true
         updateNotifierButton(isCheckingConnectivity: isCheckingConnectivity)
     }
@@ -65,9 +68,9 @@ private extension CombineViewController {
 
     func updateConnectionStatus(_ status: Connectivity.Status) {
         switch status {
-        case .connectedViaWiFi, .connectedViaCellular, .connected:
+        case .connectedViaWiFi, .connectedViaCellular, .connected, .connectedViaEthernet:
             statusLabel.textColor = UIColor.darkGreen
-        case .connectedViaWiFiWithoutInternet, .connectedViaCellularWithoutInternet, .notConnected:
+        case .connectedViaWiFiWithoutInternet, .connectedViaCellularWithoutInternet, .connectedViaEthernetWithoutInternet, .notConnected:
             statusLabel.textColor = UIColor.red
         case .determining:
             statusLabel.textColor = UIColor.black

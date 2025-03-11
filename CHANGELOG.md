@@ -4,6 +4,92 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.0.1] - 2024-12-02
+### Changed
+- Remove privacy manifest from `Package.swift` and `Connectivity.podspec` which doesn’t appear to be needed given that the framework doesn’t access any of the resources described in [https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api).
+
+## [8.0.0] - 2024-10-13
+### Changed
+- Updated build settings for Xcode 16.
+
+## [7.0.0] - 2024-05-14
+### Added
+- Added Privacy Manifest to Swift package.
+### Changed
+- Bumped platform targets in `Package.swift` from iOS/tvOS 9 -> 12 and macOS 10_10 -> 10_13.
+	- Also updated in `Connectivity.podspec`.
+
+## [6.1.1] - 2023-09-23
+### Changed
+- Added the `connectivityURLs` property back as this was a breaking change see [issue #78](https://github.com/rwbutler/Connectivity/issues/78).
+
+## [6.1.0] - 2023-09-12
+### Added
+- `Connectivity` property `connectivityURLs: [URL]` swapped to `connectivityURLRequests: [URLRequest]`. The framework now uses `URLRequest` primarily throughout. Suggestion by [@brunomiguens](https://github.com/BrunoMiguens) - [https://github.com/rwbutler/Connectivity/issues/67](https://github.com/rwbutler/Connectivity/issues/67). 
+- `URLRequest` objects used for connectivity checks may not be configured via configuration initialiser or via the fluent configuration API e.g. 
+	- ```swift
+	ConnectivityConfiguration()
+	.configureConnectivity(urlRequests: [
+	    URLRequest(...)
+	])
+	```
+- `URL` objects may still be used rather than `URLRequesd` objects via the fluent configuration API only e.g.
+	- ```swift
+	ConnectivityConfiguration()
+	.configureConnectivity(urls: [
+	    URL(...)
+	])
+	```
+	
+### Changed
+- Changed the default framework used to monitor network interface changes to `.network`. To continue using the System Configuration (Apple's Reachability) framework for monitoring network interface changes set the `framework` property to `.systemConfiguration`.
+- Fixed a typo in `ConnectivityConfiguration`. `validationMode` was incorrectly spelt as `validatioMode`.
+
+## [6.0.0] - 2023-03-09
+### Added
+- Added ability to set the authorization header to be used when contacting an endpoint (thanks to  [Nils Bergmann](https://github.com/TheNoim) - see [https://github.com/rwbutler/Connectivity/pull/73](https://github.com/rwbutler/Connectivity/pull/73)).
+
+### Changed
+- iOS deployment target updated to iOS 11.0 (dropped support for iOS 9.0 and 10.0 in-line with Xcode 14).
+- macOS deployment target updated to macOS 10.13.
+- Fixed being unable to set `bearerToken`, `framework` and `validationMode` using the configuration object (thanks to  [Nils Bergmann](https://github.com/TheNoim) - see [https://github.com/rwbutler/Connectivity/pull/73](https://github.com/rwbutler/Connectivity/pull/73)).
+
+## [5.3.1] - 2022-07-29
+### Changed
+Applied Carthage fix - see: [https://github.com/rwbutler/Connectivity/pull/66](https://github.com/rwbutler/Connectivity/pull/66) and [https://github.com/rwbutler/Connectivity/issues/65](https://github.com/rwbutler/Connectivity/issues/65).
+
+## [5.3.0] - 2022-05-15
+### Added
+A Connectivity publisher now accepts a configuration object which can be used to configure the framework.
+
+```swift
+let publisher = Connectivity.Publisher(
+    configuration:
+					.init()
+          .configureURLSession(.default)
+)
+```
+
+## [5.2.0] - 2022-05-14
+### Added
+- Fluent configuration API: Connectivity may now be configured by passing a `ConnectivityConfiguration` object to the initializer.
+### Changed
+- Internal `DispatchQueue` used by the framework now uses `.default` QOS rather than `.background`.
+
+## [5.1.1] - 2022-05-13
+### Changed
+- Updated to Xcode 13.3.1 and resolved warnings.
+
+## [5.1.0] - 2021-07-30
+### Added
+- Support for determining connection state of Ethernet connections.
+
+### Changed
+- Support compilation under Xcode 12.5.1.
+- OHHTTPStubs 8.0.0 -> 9.1.0 for testing
+- Updated documentation in README.md
+- Headers search path added to Package.swift with thanks to @larryonoff
+
 ## [5.0.0] - 2020-09-15
 ### Added
 - Support for Xcode 12.
